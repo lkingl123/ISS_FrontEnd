@@ -1,0 +1,13 @@
+version: '3.8'
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./app:/app
+    ports:
+      - "8081:8081"  # Standard port for React Native Metro Bundler
+    environment:
+      - NODE_ENV=development
+
