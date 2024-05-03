@@ -21,9 +21,12 @@ COPY app /app
 # Set the working directory
 WORKDIR /app
 
+RUN node --version
+RUN nodejs --version
+
 # Install npm dependencies, including 'react-native-cli'
-RUN npm install -g react-native-cli && npm install
+# RUN npm install -g react-native-cli && npm install
 
 # Command to run when starting the container
-CMD ["npm", "start"]
+# CMD ["npm", "start"]
 
