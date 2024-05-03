@@ -1,0 +1,10 @@
+{
+  "expo": {
+    "name": "ISS_FrontEnd",
+    "slug": "ISS_FrontEnd",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
