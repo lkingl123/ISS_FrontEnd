@@ -39,7 +39,23 @@ export default function App() {
         setIsLoggedIn(false);
         setUsername('');
         setPassword('');
+        setSingleCallData({
+            firstName: '',
+            lastName: '',
+            email: '',
+            phoneNumber: '',
+        });
+        setMultipleCallsData([
+            {
+                firstName: '',
+                lastName: '',
+                email: '',
+                phoneNumber: '',
+            },
+        ]);
+        setIsSingleCall(true);
     };
+
 
     const toggleCallMode = () => {
         setIsSingleCall(!isSingleCall);
