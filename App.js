@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, ScrollView, ActivityIndicator } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, ActivityIndicator, Image } from 'react-native';
 import { Provider as PaperProvider, TextInput as PaperTextInput, Button as PaperButton } from 'react-native-paper';
+
+// Import your company logo
+import CompanyLogo from './assets/logo.png';
 
 export default function App() {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -87,8 +90,8 @@ export default function App() {
         <PaperProvider>
             <ScrollView contentContainerStyle={styles.scrollViewContent}>
                 <View style={styles.container}>
-                    <View style={styles.headerContainer}>
-                        <Text style={styles.header}>Profile</Text>
+                    <View style={[styles.headerContainer, styles.logoContainer]}>
+                        <Image source={CompanyLogo} style={styles.logo} />
                         {isLoggedIn && (
                             <PaperButton mode="contained" onPress={handleLogout} color="#ff3333">
                                 Logout
@@ -97,7 +100,7 @@ export default function App() {
                     </View>
                     {isLoggedIn ? (
                         <View style={styles.body}>
-                            <Text>Welcome to your profile!</Text>
+                            <Text style={styles.welcomeText}>Welcome to your profile!</Text>
                             <View style={styles.options}>
                                 <PaperButton mode="contained" onPress={toggleCallMode}>
                                     {isSingleCall ? 'Single Call' : 'Multiple Calls'}
@@ -199,7 +202,7 @@ export default function App() {
                         </View>
                     ) : (
                         <View style={styles.body}>
-                            <Text>Login to access your profile</Text>
+                            <Text style={styles.loginText}>Login to access your profile</Text>
                             <PaperTextInput
                                 label="Username"
                                 value={username}
@@ -243,10 +246,10 @@ const styles = StyleSheet.create({
         width: '100%',
         paddingHorizontal: 20,
     },
-    header: {
-        fontSize: 24,
-        fontWeight: 'bold',
-        marginBottom: 20,
+    logo: {
+        height: 100,
+        width: 100,
+        resizeMode: 'contain',
     },
     body: {
         alignItems: 'center',
@@ -273,5 +276,18 @@ const styles = StyleSheet.create({
     },
     input: {
         marginBottom: 10,
+    },
+    loginText: {
+        marginBottom: 10,
+        fontSize: 18,
+        fontWeight: 'bold',
+    },
+    loginButton: {
+        marginTop: 10,
+    },
+    welcomeText: {
+        marginBottom: 20,
+        fontSize: 18,
+        fontWeight: 'bold',
     },
 });
