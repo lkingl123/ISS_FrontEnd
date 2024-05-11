@@ -6,7 +6,9 @@ import CompanyLogo from './assets/logo.png';
 
 const AppLayout = ({
     isLoggedIn,
+    setUsername,
     username,
+    setPassword,
     password,
     isSingleCall,
     singleCallData,
@@ -21,6 +23,7 @@ const AppLayout = ({
     handleAddForm,
     handleLogin
 }) => {
+
     return (
         <PaperProvider>
             <ScrollView contentContainerStyle={styles.scrollViewContent}>
@@ -138,19 +141,27 @@ const AppLayout = ({
                     ) : (
                         <View style={styles.body}>
                             <Text style={styles.loginText}>Login to access your profile</Text>
-                            <PaperTextInput
-                                label="Username"
-                                value={username}
-                                onChangeText={setUsername}
-                                style={styles.input}
-                            />
-                            <PaperTextInput
-                                label="Password"
-                                value={password}
-                                onChangeText={setPassword}
-                                secureTextEntry
-                                style={styles.input}
-                            />
+                                <PaperTextInput
+                                    label="Username"
+                                    value={username}
+                                    onChangeText={(text) => {
+                                        console.log("Username onChangeText:", text); // Add this line to check the onChangeText event
+                                        setUsername(text);
+                                    }}
+                                    style={styles.input}
+                                    disabled={false}
+                                />
+                                <PaperTextInput
+                                    label="Password"
+                                    value={password}
+                                    onChangeText={(text) => {
+                                        console.log("Password onChangeText:", text); // Add this line to check the onChangeText event
+                                        setPassword(text);
+                                    }}
+                                    secureTextEntry
+                                    style={styles.input}
+                                    disabled={false}
+                                />
                             <PaperButton mode="contained" onPress={handleLogin} style={styles.loginButton}>
                                 Login
                             </PaperButton>
