@@ -27,4 +27,13 @@ To run the app locally and also provide instructions for others, you can follow 
 4. Run `npm start` or `yarn start` to start the Metro bundler.
 5. Follow the additional instructions provided in the README for running on iOS or Android simulators.
 
-After creating this README file, commit and push it to your GitHub repository. This will make it accessible to anyone visiting your repository.
+## ISS FrontEnd Docker Setup
+
+This repository contains the Docker setup for the ISS FrontEnd project.
+
+## Building the Docker Image
+
+To build the Docker image, navigate to the root directory of this project in your terminal and run the following command:
+
+```bash
+docker build -t issfe .
