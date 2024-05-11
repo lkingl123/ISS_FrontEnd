@@ -1,123 +1,26 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { ScrollView, View, Text, Image, ActivityIndicator } from 'react-native';
 import { Provider as PaperProvider, TextInput as PaperTextInput, Button as PaperButton } from 'react-native-paper';
-import { initiateCall } from './api/Service';
-import CompanyLogo from './assets/logo.png';
 import styles from './styles'; // Import styles
+import CompanyLogo from './assets/logo.png';
 
-export default function App() {
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
-    const [isSingleCall, setIsSingleCall] = useState(true);
-    const [singleCallData, setSingleCallData] = useState({
-        firstName: '',
-        lastName: '',
-        email: '',
-        phoneNumber: '',
-    });
-    const [multipleCallsData, setMultipleCallsData] = useState([
-        {
-            firstName: '',
-            lastName: '',
-            email: '',
-            phoneNumber: '',
-        },
-    ]);
-    const [isMakingCall, setIsMakingCall] = useState(false);
-
-    const handleLogin = () => {
-        // Simulated login logic
-        if (username === 'a' && password === 'a') {
-            setIsLoggedIn(true);
-        } else {
-            alert('Invalid username or password. Please try again.');
-        }
-    };
-
-    const handleLogout = () => {
-        setIsLoggedIn(false);
-        setUsername('');
-        setPassword('');
-        setSingleCallData({
-            firstName: '',
-            lastName: '',
-            email: '',
-            phoneNumber: '',
-        });
-        setMultipleCallsData([
-            {
-                firstName: '',
-                lastName: '',
-                email: '',
-                phoneNumber: '',
-            },
-        ]);
-        setIsSingleCall(true);
-    };
-
-
-    const toggleCallMode = () => {
-        setIsSingleCall(!isSingleCall);
-    };
-
-    const handleSingleCallInputChange = (name, value) => {
-        setSingleCallData({ ...singleCallData, [name]: value });
-    };
-
-    const handleMultipleCallsInputChange = (index, name, value) => {
-        const newData = [...multipleCallsData];
-        newData[index][name] = value;
-        setMultipleCallsData(newData);
-    };
-
-    const handleMakeSingleCall = async () => {
-        // Log the payload before initiating the call
-        console.log('Payload for single call:', singleCallData);
-        setIsMakingCall(true);
-        try {
-            const response = await initiateCall(singleCallData);
-            console.log('Call initiated successfully:', response);
-            setIsMakingCall(false);
-            alert('Call initiated successfully!');
-        } catch (error) {
-            setIsMakingCall(false);
-            console.error('Error initiating call:', error.message);
-            alert('Failed to initiate call. Please try again.');
-        }
-    };
-
-    const handleMakeMultipleCalls = async () => {
-        // Check if all forms are filled
-        const isAnyFormIncomplete = multipleCallsData.some(
-            (data) => !data.firstName || !data.lastName || !data.email || !data.phoneNumber
-        );
-        if (isAnyFormIncomplete) {
-            alert('Please fill in all fields before making the call.');
-            return;
-        }
-
-        // Log the payload before initiating the calls
-        console.log('Payload for multiple calls:', multipleCallsData);
-
-        setIsMakingCall(true);
-        try {
-            const promises = multipleCallsData.map(data => initiateCall(data));
-            const responses = await Promise.all(promises);
-            console.log('Calls initiated successfully:', responses);
-            setIsMakingCall(false);
-            alert('Calls initiated successfully!');
-        } catch (error) {
-            setIsMakingCall(false);
-            console.error('Error initiating calls:', error.message);
-            alert('Failed to initiate calls. Please try again.');
-        }
-    };
-
-    const handleAddForm = () => {
-        setMultipleCallsData([...multipleCallsData, { firstName: '', lastName: '', email: '', phoneNumber: '' }]);
-    };
-
+const AppLayout = ({
+    isLoggedIn,
+    username,
+    password,
+    isSingleCall,
+    singleCallData,
+    multipleCallsData,
+    isMakingCall,
+    handleLogout,
+    toggleCallMode,
+    handleSingleCallInputChange,
+    handleMultipleCallsInputChange,
+    handleMakeSingleCall,
+    handleMakeMultipleCalls,
+    handleAddForm,
+    handleLogin
+}) => {
     return (
         <PaperProvider>
             <ScrollView contentContainerStyle={styles.scrollViewContent}>
@@ -257,5 +160,6 @@ export default function App() {
             </ScrollView>
         </PaperProvider>
     );
-}
+};
 
+export default AppLayout;
