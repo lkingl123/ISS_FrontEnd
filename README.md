@@ -1,4 +1,4 @@
-# React Native App
+# React Native App ISS_FrontEnd
 
 This is a simple React Native application that allows users to log in, make single or multiple calls, and log out.
 
@@ -26,7 +26,7 @@ To run the app locally and also provide instructions for others, you can follow 
 3. Run `npm install` or `yarn install` to install dependencies.
 4. Run `npm start` or `yarn start` to start the Metro bundler.
 5. Follow the additional instructions provided in the README for running on iOS or Android simulators.
-
+```
 ## ISS FrontEnd Docker Setup
 
 This repository contains the Docker setup for the ISS FrontEnd project.
@@ -37,3 +37,12 @@ To build the Docker image, navigate to the root directory of this project in you
 
 ```bash
 docker build -t issfe .
+```
+
+## Running the Docker Container
+
+Once the image is built, you can run the Docker container using the following command:
+
+```bash
+docker run -it -p 8081:8081 issfe
+```
