@@ -17,29 +17,6 @@ const LoginScreen = ({ navigation, handleLogin }) => {
         }
     }, [isFocused]);
 
-    useEffect(() => {
-        const handleBeforeUnload = () => {
-            sessionStorage.setItem('email', '');
-            sessionStorage.setItem('password', '');
-        };
-
-        window.addEventListener('beforeunload', handleBeforeUnload);
-
-        return () => {
-            window.removeEventListener('beforeunload', handleBeforeUnload);
-        };
-    }, []);
-
-    useEffect(() => {
-        setEmail(sessionStorage.getItem('email') || '');
-        setPassword(sessionStorage.getItem('password') || '');
-    }, []);
-
-    useEffect(() => {
-        sessionStorage.setItem('email', email);
-        sessionStorage.setItem('password', password);
-    }, [email, password]);
-
     return (
         <View style={styles.container}>
             <Text style={styles.loginText}>Login to access your profile</Text>
@@ -49,9 +26,6 @@ const LoginScreen = ({ navigation, handleLogin }) => {
                 onChangeText={(text) => setEmail(text)}
                 style={styles.input}
                 disabled={false}
-                autoCompleteType="off"
-                textContentType="none"
-                autoComplete="off"
             />
             <PaperTextInput
                 label="Password"
@@ -60,9 +34,6 @@ const LoginScreen = ({ navigation, handleLogin }) => {
                 secureTextEntry
                 style={styles.input}
                 disabled={false}
-                autoCompleteType="off"
-                textContentType="none"
-                autoComplete="off"
             />
             <PaperButton mode="contained" onPress={() => handleLogin(email, password)} style={styles.loginButton}>
                 Login
