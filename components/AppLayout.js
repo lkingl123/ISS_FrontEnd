@@ -1,8 +1,8 @@
 import React from 'react';
 import { ScrollView, View, Text, Image, ActivityIndicator } from 'react-native';
 import { Provider as PaperProvider, TextInput as PaperTextInput, Button as PaperButton } from 'react-native-paper';
-import styles from './styles'; // Import styles
-import CompanyLogo from './assets/logo.png';
+import styles from '../styles'
+import CompanyLogo from '../assets/logo.png';
 
 const AppLayout = ({
     isLoggedIn,
