@@ -1,13 +1,14 @@
+// components/AppLayout.js
 import React from 'react';
 import { ScrollView, View, Text, Image, ActivityIndicator } from 'react-native';
 import { Provider as PaperProvider, TextInput as PaperTextInput, Button as PaperButton } from 'react-native-paper';
-import styles from '../styles'
+import styles from '../styles';
 import CompanyLogo from '../assets/logo.png';
 
 const AppLayout = ({
     isLoggedIn,
-    setUsername,
-    username,
+    setEmail,
+    email,
     setPassword,
     password,
     isSingleCall,
@@ -21,9 +22,10 @@ const AppLayout = ({
     handleMakeSingleCall,
     handleMakeMultipleCalls,
     handleAddForm,
-    handleLogin
+    handleLogin,
+    handleRegister,
+    user,
 }) => {
-
     return (
         <PaperProvider>
             <ScrollView contentContainerStyle={styles.scrollViewContent}>
@@ -38,7 +40,7 @@ const AppLayout = ({
                     </View>
                     {isLoggedIn ? (
                         <View style={styles.body}>
-                            <Text style={styles.welcomeText}>Welcome to your profile!</Text>
+                            <Text style={styles.welcomeText}>Welcome, {user.email}</Text>
                             <View style={styles.options}>
                                 <PaperButton mode="contained" onPress={toggleCallMode}>
                                     {isSingleCall ? 'Single Call' : 'Multiple Calls'}
@@ -140,30 +142,33 @@ const AppLayout = ({
                         </View>
                     ) : (
                         <View style={styles.body}>
-                            <Text style={styles.loginText}>Login to access your profile</Text>
-                                <PaperTextInput
-                                    label="Username"
-                                    value={username}
-                                    onChangeText={(text) => {
-                                        console.log("Username onChangeText:", text); // Add this line to check the onChangeText event
-                                        setUsername(text);
-                                    }}
-                                    style={styles.input}
-                                    disabled={false}
-                                />
-                                <PaperTextInput
-                                    label="Password"
-                                    value={password}
-                                    onChangeText={(text) => {
-                                        console.log("Password onChangeText:", text); // Add this line to check the onChangeText event
-                                        setPassword(text);
-                                    }}
-                                    secureTextEntry
-                                    style={styles.input}
-                                    disabled={false}
-                                />
+                            <Text style={styles.loginText}>Login or Register to access your profile</Text>
+                            <PaperTextInput
+                                label="Email"
+                                value={email}
+                                onChangeText={(text) => {
+                                    console.log("Email onChangeText:", text);
+                                    setEmail(text);
+                                }}
+                                style={styles.input}
+                                disabled={false}
+                            />
+                            <PaperTextInput
+                                label="Password"
+                                value={password}
+                                onChangeText={(text) => {
+                                    console.log("Password onChangeText:", text);
+                                    setPassword(text);
+                                }}
+                                secureTextEntry
+                                style={styles.input}
+                                disabled={false}
+                            />
                             <PaperButton mode="contained" onPress={handleLogin} style={styles.loginButton}>
                                 Login
+                            </PaperButton>
+                            <PaperButton mode="outlined" onPress={handleRegister} style={styles.registerButton}>
+                                Register
                             </PaperButton>
                         </View>
                     )}

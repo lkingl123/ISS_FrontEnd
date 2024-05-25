@@ -1,51 +1,57 @@
+// App.js
 import React from 'react';
-import AppLayout from './components/AppLayout';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import LoginScreen from './screens/LoginScreen';
+import RegisterScreen from './screens/RegisterScreen';
+import HomeScreen from './screens/HomeScreen';
 import useAuth from './hooks/useAuth';
-import useCall from './hooks/useCall';
+
+const Stack = createStackNavigator();
 
 export default function App() {
     const {
         isLoggedIn,
-        username,
-        password,
-        setUsername,
-        setPassword,
+        user,
+        handleRegister,
         handleLogin,
         handleLogout,
     } = useAuth();
 
-    const {
-        isSingleCall,
-        singleCallData,
-        multipleCallsData,
-        isMakingCall,
-        toggleCallMode,
-        handleSingleCallInputChange,
-        handleMultipleCallsInputChange,
-        handleMakeSingleCall,
-        handleMakeMultipleCalls,
-        handleAddForm,
-    } = useCall();
-
     return (
-        <AppLayout
-            isLoggedIn={isLoggedIn}
-            username={username}
-            password={password}
-            setUsername={setUsername}
-            setPassword={setPassword}
-            isSingleCall={isSingleCall}
-            singleCallData={singleCallData}
-            multipleCallsData={multipleCallsData}
-            isMakingCall={isMakingCall}
-            handleLogout={handleLogout}
-            toggleCallMode={toggleCallMode}
-            handleSingleCallInputChange={handleSingleCallInputChange}
-            handleMultipleCallsInputChange={handleMultipleCallsInputChange}
-            handleMakeSingleCall={handleMakeSingleCall}
-            handleMakeMultipleCalls={handleMakeMultipleCalls}
-            handleAddForm={handleAddForm}
-            handleLogin={handleLogin}
-        />
+        <NavigationContainer>
+            <Stack.Navigator>
+                {isLoggedIn ? (
+                    <Stack.Screen name="Home">
+                        {(props) => (
+                            <HomeScreen
+                                {...props}
+                                user={user}
+                                handleLogout={handleLogout}
+                            />
+                        )}
+                    </Stack.Screen>
+                ) : (
+                    <>
+                        <Stack.Screen name="Login">
+                            {(props) => (
+                                <LoginScreen
+                                    {...props}
+                                    handleLogin={handleLogin}
+                                />
+                            )}
+                        </Stack.Screen>
+                        <Stack.Screen name="Register">
+                            {(props) => (
+                                <RegisterScreen
+                                    {...props}
+                                    handleRegister={handleRegister}
+                                />
+                            )}
+                        </Stack.Screen>
+                    </>
+                )}
+            </Stack.Navigator>
+        </NavigationContainer>
     );
 }
