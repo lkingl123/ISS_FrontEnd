@@ -1,30 +1,28 @@
+// src/hooks/useAuth.js
 import { useState } from 'react';
+import { authorize, revoke } from 'react-native-app-auth';
+import { authConfig } from '../authConfig';
 
 const useAuth = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
+    const [accessToken, setAccessToken] = useState('');
 
-    const handleLogin = () => {
-        if (username === 'a' && password === 'a') {
+    const handleLogin = async () => {
+        try {
+            const authState = await authorize(authConfig);
             setIsLoggedIn(true);
-        } else {
-            alert('Invalid username or password. Please try again.');
+            setUsername(authState.tokenAdditionalParameters.preferred_username);
+            setAccessToken(authState.accessToken);
+        } catch (error) {
+            console.error('Login failed', error);
+            alert('Login failed. Please try again.');
         }
     };
 
-    const handleLogout = () => {
-        setIsLoggedIn(false);
-        setUsername('');
-        setPassword('');
-    }; 
-      
     return {
         isLoggedIn,
         username,
-        password,
-        setUsername,
-        setPassword,
         handleLogin,
         handleLogout,
     };
