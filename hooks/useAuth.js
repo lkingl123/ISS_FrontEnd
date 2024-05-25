@@ -18,7 +18,7 @@ const useAuth = () => {
         setUsername('');
         setPassword('');
     }; 
-
+      
     return {
         isLoggedIn,
         username,
