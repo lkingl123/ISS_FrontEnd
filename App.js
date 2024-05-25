@@ -1,4 +1,3 @@
-// src/App.js
 import React from 'react';
 import AppLayout from './components/AppLayout';
 import useAuth from './hooks/useAuth';
@@ -8,6 +7,9 @@ export default function App() {
     const {
         isLoggedIn,
         username,
+        password,
+        setUsername,
+        setPassword,
         handleLogin,
         handleLogout,
     } = useAuth();
@@ -29,6 +31,9 @@ export default function App() {
         <AppLayout
             isLoggedIn={isLoggedIn}
             username={username}
+            password={password}
+            setUsername={setUsername}
+            setPassword={setPassword}
             isSingleCall={isSingleCall}
             singleCallData={singleCallData}
             multipleCallsData={multipleCallsData}
