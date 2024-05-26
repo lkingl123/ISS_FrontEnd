@@ -1,4 +1,3 @@
-// hooks/useCall.js
 import { useState } from 'react';
 import { initiateCall } from '../api/Service'; // Import the API function
 
@@ -15,10 +14,33 @@ const useCall = () => {
         setMultipleCallsData([{ firstName: '', lastName: '', email: '', phoneNumber: '' }]);
     };
 
+    const validateEmail = (email) => {
+        // Regular expression to validate email format
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
+    };
+
+    const validatePhoneNumber = (phoneNumber) => {
+        // Regular expression to validate phone number format (e.g., XXX-XXX-XXXX)
+        const phoneRegex = /^\d{3}-\d{3}-\d{4}$/;
+        return phoneRegex.test(phoneNumber);
+    };
+
     const handleMakeSingleCall = async () => {
         try {
             setIsMakingCall(true);
             setCallSuccess(false);
+            setErrorMessage('');
+            // Validate data
+            if (!singleCallData.firstName || !singleCallData.lastName || !singleCallData.email || !singleCallData.phoneNumber) {
+                throw new Error('Please fill in all fields');
+            }
+            if (!validateEmail(singleCallData.email)) {
+                throw new Error('Please enter a valid email');
+            }
+            if (!validatePhoneNumber(singleCallData.phoneNumber)) {
+                throw new Error('Please enter a valid phone number (e.g., 385-XXX-XXXX)');
+            }
             // Perform API call for single call
             await initiateCall(singleCallData);
             setIsMakingCall(false);
@@ -27,7 +49,7 @@ const useCall = () => {
         } catch (error) {
             setIsMakingCall(false);
             setCallSuccess(false);
-            setErrorMessage('Error making single call: ' + error.message);
+            setErrorMessage(error.message);
             console.error('Error making single call:', error.message);
         }
     };
@@ -36,6 +58,20 @@ const useCall = () => {
         try {
             setIsMakingCall(true);
             setCallSuccess(false);
+            setErrorMessage('');
+            // Validate data
+            const hasEmptyFields = multipleCallsData.some(data =>
+                !data.firstName || !data.lastName || !data.email || !data.phoneNumber
+            );
+            if (hasEmptyFields) {
+                throw new Error('Please fill in all fields for all forms');
+            }
+            if (multipleCallsData.some(data => !validateEmail(data.email))) {
+                throw new Error('Please enter a valid email for all forms');
+            }
+            if (multipleCallsData.some(data => !validatePhoneNumber(data.phoneNumber))) {
+                throw new Error('Please enter a valid phone number (e.g., 385-XXX-XXXX)');
+            }
             // Perform API call for multiple calls
             await Promise.all(multipleCallsData.map(initiateCall));
             setIsMakingCall(false);
@@ -44,7 +80,7 @@ const useCall = () => {
         } catch (error) {
             setIsMakingCall(false);
             setCallSuccess(false);
-            setErrorMessage('Error making multiple calls: ' + error.message);
+            setErrorMessage(error.message);
             console.error('Error making multiple calls:', error.message);
         }
     };

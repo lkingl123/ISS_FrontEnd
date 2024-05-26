@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { ScrollView, View, Text, Image, ActivityIndicator } from 'react-native';
-import { Provider as PaperProvider, TextInput as PaperTextInput, Button as PaperButton } from 'react-native-paper';
+import { Provider as PaperProvider, TextInput as PaperTextInput, Button as PaperButton, Snackbar } from 'react-native-paper';
 import styles from '../styles';
 import CompanyLogo from '../assets/logo.png';
 import useCall from '../hooks/useCall';
@@ -17,9 +17,21 @@ const HomeScreen = ({ user, handleLogout }) => {
         handleMakeSingleCall,
         handleMakeMultipleCalls,
         handleAddForm,
+        callSuccess, // New state for indicating call success
+        errorMessage, // New state for displaying error message
     } = useCall();
 
     const formStyle = [styles.form, isSingleCall ? styles.singleCallForm : styles.multipleCallForm];
+
+    const [visible, setVisible] = useState(false); // State for controlling success Snackbar visibility
+
+    useEffect(() => {
+        if (callSuccess) {
+            setVisible(true); // Show success Snackbar when callSuccess changes to true
+        }
+    }, [callSuccess]);
+
+    const onDismissSnackBar = () => setVisible(false); // Function to handle success Snackbar dismissal
 
     return (
         <PaperProvider>
@@ -139,6 +151,18 @@ const HomeScreen = ({ user, handleLogout }) => {
                                 </>
                             )}
                         </View>
+                        <Snackbar
+                            visible={visible} // Set visible prop based on success state
+                            onDismiss={onDismissSnackBar} // Call onDismissSnackBar when Snackbar is dismissed
+                        >
+                            Call successful! {/* Snackbar message */}
+                        </Snackbar>
+                        <Snackbar
+                            visible={!!errorMessage} // Display validation error Snackbar only when errorMessage is present
+                            onDismiss={() => handleAddForm()} // Dismiss Snackbar when user interacts with the form
+                        >
+                            {errorMessage}
+                        </Snackbar>
                     </View>
                 </View>
             </ScrollView>
