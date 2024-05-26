@@ -22,7 +22,7 @@ jobs:
       run: npm install
 
     - name: Build Project
-      run: npm run build
+      run: npx expo export:web
 
     - name: Deploy to Firebase Hosting
       uses: FirebaseExtended/action-hosting-deploy@v0
