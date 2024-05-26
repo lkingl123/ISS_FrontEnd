@@ -1,9 +1,9 @@
-// screens/LoginScreen.js
 import React, { useState, useEffect } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, Image } from 'react-native';
 import { TextInput as PaperTextInput, Button as PaperButton } from 'react-native-paper';
 import { useIsFocused } from '@react-navigation/native';
 import styles from '../styles';
+import CompanyLogo from '../assets/logo.png'; // Import the logo image
 
 const LoginScreen = ({ navigation, handleLogin }) => {
     const [email, setEmail] = useState('');
@@ -19,6 +19,7 @@ const LoginScreen = ({ navigation, handleLogin }) => {
 
     return (
         <View style={styles.container}>
+            <Image source={CompanyLogo} style={styles.logo} /> {/* Add the logo image */}
             <Text style={styles.loginText}>Login to access your profile</Text>
             <PaperTextInput
                 label="Email"

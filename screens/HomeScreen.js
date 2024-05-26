@@ -5,7 +5,7 @@ import styles from '../styles';
 import CompanyLogo from '../assets/logo.png';
 import useCall from '../hooks/useCall';
 
-const HomeScreen = ({ user, handleLogout }) => {
+const HomeScreen = ({ user, handleLogout, navigation }) => {
     const {
         isSingleCall,
         singleCallData,
@@ -17,21 +17,21 @@ const HomeScreen = ({ user, handleLogout }) => {
         handleMakeSingleCall,
         handleMakeMultipleCalls,
         handleAddForm,
-        callSuccess, // New state for indicating call success
-        errorMessage, // New state for displaying error message
+        callSuccess,
+        errorMessage,
     } = useCall();
 
     const formStyle = [styles.form, isSingleCall ? styles.singleCallForm : styles.multipleCallForm];
 
-    const [visible, setVisible] = useState(false); // State for controlling success Snackbar visibility
+    const [visible, setVisible] = useState(false);
 
     useEffect(() => {
         if (callSuccess) {
-            setVisible(true); // Show success Snackbar when callSuccess changes to true
+            setVisible(true);
         }
     }, [callSuccess]);
 
-    const onDismissSnackBar = () => setVisible(false); // Function to handle success Snackbar dismissal
+    const onDismissSnackBar = () => setVisible(false);
 
     return (
         <PaperProvider>
@@ -151,16 +151,17 @@ const HomeScreen = ({ user, handleLogout }) => {
                                 </>
                             )}
                         </View>
-                        <Snackbar
-                            visible={visible} // Set visible prop based on success state
-                            onDismiss={onDismissSnackBar} // Call onDismissSnackBar when Snackbar is dismissed
+                        <PaperButton
+                            mode="contained"
+                            onPress={() => navigation.navigate('UploadDocs')}
+                            style={styles.uploadButton}
                         >
-                            Call successful! {/* Snackbar message */}
+                            Go to Upload Docs
+                        </PaperButton>
+                        <Snackbar visible={visible} onDismiss={onDismissSnackBar}>
+                            Call successful!
                         </Snackbar>
-                        <Snackbar
-                            visible={!!errorMessage} // Display validation error Snackbar only when errorMessage is present
-                            onDismiss={() => handleAddForm()} // Dismiss Snackbar when user interacts with the form
-                        >
+                        <Snackbar visible={!!errorMessage} onDismiss={() => handleAddForm()}>
                             {errorMessage}
                         </Snackbar>
                     </View>

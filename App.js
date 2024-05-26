@@ -5,6 +5,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import LoginScreen from './screens/LoginScreen';
 import RegisterScreen from './screens/RegisterScreen';
 import HomeScreen from './screens/HomeScreen';
+import UploadDocsScreen from './screens/UploadDocsScreen'; // Import the new screen
 import useAuth from './hooks/useAuth';
 
 const Stack = createStackNavigator();
@@ -22,15 +23,26 @@ export default function App() {
         <NavigationContainer>
             <Stack.Navigator>
                 {isLoggedIn ? (
-                    <Stack.Screen name="Home">
-                        {(props) => (
-                            <HomeScreen
-                                {...props}
-                                user={user}
-                                handleLogout={handleLogout}
-                            />
-                        )}
-                    </Stack.Screen>
+                    <>
+                        <Stack.Screen name="Home">
+                            {(props) => (
+                                <HomeScreen
+                                    {...props}
+                                    user={user}
+                                    handleLogout={handleLogout}
+                                    navigation={props.navigation} // Pass navigation prop
+                                />
+                            )}
+                        </Stack.Screen>
+                        <Stack.Screen name="UploadDocs">
+                            {(props) => (
+                                <UploadDocsScreen
+                                    {...props}
+                                    navigation={props.navigation} // Pass navigation prop
+                                />
+                            )}
+                        </Stack.Screen>
+                    </>
                 ) : (
                     <>
                         <Stack.Screen name="Login">
