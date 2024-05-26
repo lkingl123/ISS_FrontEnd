@@ -1,24 +1,26 @@
-// screens/HomeScreen.js
 import React from 'react';
 import { ScrollView, View, Text, Image, ActivityIndicator } from 'react-native';
 import { Provider as PaperProvider, TextInput as PaperTextInput, Button as PaperButton } from 'react-native-paper';
 import styles from '../styles';
 import CompanyLogo from '../assets/logo.png';
+import useCall from '../hooks/useCall';
 
-const HomeScreen = ({
-    user,
-    handleLogout,
-    isSingleCall,
-    singleCallData,
-    multipleCallsData = [], // Default to an empty array
-    isMakingCall,
-    toggleCallMode,
-    handleSingleCallInputChange,
-    handleMultipleCallsInputChange,
-    handleMakeSingleCall,
-    handleMakeMultipleCalls,
-    handleAddForm,
-}) => {
+const HomeScreen = ({ user, handleLogout }) => {
+    const {
+        isSingleCall,
+        singleCallData,
+        multipleCallsData,
+        isMakingCall,
+        toggleCallMode,
+        handleSingleCallInputChange,
+        handleMultipleCallsInputChange,
+        handleMakeSingleCall,
+        handleMakeMultipleCalls,
+        handleAddForm,
+    } = useCall();
+
+    const formStyle = [styles.form, isSingleCall ? styles.singleCallForm : styles.multipleCallForm];
+
     return (
         <PaperProvider>
             <ScrollView contentContainerStyle={styles.scrollViewContent}>
@@ -36,99 +38,107 @@ const HomeScreen = ({
                                 {isSingleCall ? 'Single Call' : 'Multiple Calls'}
                             </PaperButton>
                         </View>
-                        {isSingleCall ? (
-                            <View style={styles.form}>
-                                <PaperTextInput
-                                    label="First Name"
-                                    value={singleCallData.firstName}
-                                    onChangeText={(text) => handleSingleCallInputChange('firstName', text)}
-                                    style={styles.input}
-                                    required
-                                />
-                                <PaperTextInput
-                                    label="Last Name"
-                                    value={singleCallData.lastName}
-                                    onChangeText={(text) => handleSingleCallInputChange('lastName', text)}
-                                    style={styles.input}
-                                    required
-                                />
-                                <PaperTextInput
-                                    label="Email"
-                                    value={singleCallData.email}
-                                    onChangeText={(text) => handleSingleCallInputChange('email', text)}
-                                    style={styles.input}
-                                    required
-                                />
-                                <PaperTextInput
-                                    label="Phone Number"
-                                    value={singleCallData.phoneNumber}
-                                    onChangeText={(text) => handleSingleCallInputChange('phoneNumber', text)}
-                                    style={styles.input}
-                                    required
-                                />
-                                <View style={styles.buttonContainer}>
-                                    <PaperButton
-                                        mode="contained"
-                                        onPress={handleMakeSingleCall}
-                                        disabled={isMakingCall}
-                                    >
-                                        {isMakingCall ? 'Making Call...' : 'Make Call'}
-                                    </PaperButton>
-                                </View>
-                                {isMakingCall && <ActivityIndicator size="large" color="#0000ff" />}
-                            </View>
-                        ) : (
-                            <View>
-                                {multipleCallsData.map((data, index) => (
-                                    <View key={index}>
-                                        <View style={styles.form}>
+                        <View style={formStyle}>
+                            {isSingleCall ? (
+                                <>
+                                    <PaperTextInput
+                                        label="First Name"
+                                        value={singleCallData.firstName}
+                                        onChangeText={(text) => handleSingleCallInputChange('firstName', text)}
+                                        style={styles.input}
+                                        required
+                                    />
+                                    <PaperTextInput
+                                        label="Last Name"
+                                        value={singleCallData.lastName}
+                                        onChangeText={(text) => handleSingleCallInputChange('lastName', text)}
+                                        style={styles.input}
+                                        required
+                                    />
+                                    <PaperTextInput
+                                        label="Email"
+                                        value={singleCallData.email}
+                                        onChangeText={(text) => handleSingleCallInputChange('email', text)}
+                                        style={styles.input}
+                                        required
+                                    />
+                                    <PaperTextInput
+                                        label="Phone Number"
+                                        value={singleCallData.phoneNumber}
+                                        onChangeText={(text) => handleSingleCallInputChange('phoneNumber', text)}
+                                        style={styles.input}
+                                        required
+                                    />
+                                    <View style={styles.buttonContainer}>
+                                        <PaperButton
+                                            mode="contained"
+                                            onPress={handleMakeSingleCall}
+                                            disabled={isMakingCall}
+                                        >
+                                            {isMakingCall ? 'Making Call...' : 'Make Call'}
+                                        </PaperButton>
+                                    </View>
+                                    {isMakingCall && <ActivityIndicator size="large" color="#0000ff" />}
+                                </>
+                            ) : (
+                                <>
+                                    {multipleCallsData.map((data, index) => (
+                                        <View key={index}>
                                             <PaperTextInput
                                                 label="First Name"
                                                 value={data.firstName}
-                                                onChangeText={(text) => handleMultipleCallsInputChange(index, 'firstName', text)}
+                                                onChangeText={(text) =>
+                                                    handleMultipleCallsInputChange(index, 'firstName', text)
+                                                }
                                                 style={styles.input}
                                                 required
                                             />
                                             <PaperTextInput
                                                 label="Last Name"
                                                 value={data.lastName}
-                                                onChangeText={(text) => handleMultipleCallsInputChange(index, 'lastName', text)}
+                                                onChangeText={(text) =>
+                                                    handleMultipleCallsInputChange(index, 'lastName', text)
+                                                }
                                                 style={styles.input}
                                                 required
                                             />
                                             <PaperTextInput
                                                 label="Email"
                                                 value={data.email}
-                                                onChangeText={(text) => handleMultipleCallsInputChange(index, 'email', text)}
+                                                onChangeText={(text) =>
+                                                    handleMultipleCallsInputChange(index, 'email', text)
+                                                }
                                                 style={styles.input}
                                                 required
                                             />
                                             <PaperTextInput
                                                 label="Phone Number"
                                                 value={data.phoneNumber}
-                                                onChangeText={(text) => handleMultipleCallsInputChange(index, 'phoneNumber', text)}
+                                                onChangeText={(text) =>
+                                                    handleMultipleCallsInputChange(index, 'phoneNumber', text)
+                                                }
                                                 style={styles.input}
                                                 required
                                             />
+                                            {index !== multipleCallsData.length - 1 && <View style={styles.separator} />}
                                         </View>
-                                        {index !== multipleCallsData.length - 1 && <View style={styles.separator} />}
-                                    </View>
-                                ))}
-                                <PaperButton mode="contained" onPress={handleAddForm}>
-                                    Add Form
-                                </PaperButton>
-                                <View style={styles.buttonContainer}>
-                                    <PaperButton
-                                        mode="contained"
-                                        onPress={handleMakeMultipleCalls}
-                                        disabled={isMakingCall}
-                                    >
-                                        {isMakingCall ? 'Making Call...' : 'Make Call'}
+                                    ))}
+                                    <PaperButton mode="contained" onPress={handleAddForm}>
+                                        Add Form
                                     </PaperButton>
-                                </View>
-                                {isMakingCall && <ActivityIndicator size="large" color="#0000ff" />}
-                            </View>
-                        )}
+                                    <View style={styles.buttonContainer}>
+                                        <PaperButton
+                                            mode="contained"
+                                            onPress={handleMakeMultipleCalls}
+                                            disabled={isMakingCall}
+                                        >
+                                            {isMakingCall ? 'Making Call...' : 'Make Call'}
+                                        </PaperButton>
+                                    </View>
+                                    {isMakingCall && <ActivityIndicator size="large" color="#0000ff" />}
+                                </>
+                            )}
+                        </View>
                     </View>
                 </View>
             </ScrollView>
