@@ -1,4 +1,3 @@
-// screens/RegisterScreen.js
 import React, { useState } from 'react';
 import { View, Text } from 'react-native';
 import { TextInput as PaperTextInput, Button as PaperButton } from 'react-native-paper';
@@ -7,6 +6,17 @@ import styles from '../styles';
 const RegisterScreen = ({ navigation, handleRegister }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
+    const [error, setError] = useState('');
+
+    const onRegister = () => {
+        if (password !== confirmPassword) {
+            setError('Passwords do not match');
+            return;
+        }
+        setError('');
+        handleRegister(email, password);
+    };
 
     return (
         <View style={styles.container}>
@@ -26,7 +36,16 @@ const RegisterScreen = ({ navigation, handleRegister }) => {
                 style={styles.input}
                 disabled={false}
             />
-            <PaperButton mode="contained" onPress={() => handleRegister(email, password)} style={styles.loginButton}>
+            <PaperTextInput
+                label="Confirm Password"
+                value={confirmPassword}
+                onChangeText={(text) => setConfirmPassword(text)}
+                secureTextEntry
+                style={styles.input}
+                disabled={false}
+            />
+            {error ? <Text style={styles.errorText}>{error}</Text> : null}
+            <PaperButton mode="contained" onPress={onRegister} style={styles.loginButton}>
                 Register
             </PaperButton>
             <PaperButton mode="outlined" onPress={() => navigation.navigate('Login')} style={styles.registerButton}>

@@ -35,11 +35,12 @@
     "react-native-webview": "^13.10.2",
     "stream-browserify": "^3.0.0",
     "vm-browserify": "^1.1.2",
-    "xlsx": "^0.18.5"
+    "xlsx": ">=0.20.2"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
-    "@expo/webpack-config": "^19.0.1"
+    "@expo/webpack-config": "^19.0.1",
+    "xlsx": ">=0.20.2"
   },
   "private": true
 }

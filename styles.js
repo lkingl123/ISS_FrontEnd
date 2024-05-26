@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
         marginBottom: 10,
     },
     loginText: {
-        marginTop:-50,
+        marginTop: -50,
         marginBottom: 10,
         fontSize: 18,
         fontWeight: 'bold',
@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
     },
     registerButton: {
         marginTop: 10,
-        marginBottom:10,
+        marginBottom: 10,
     },
     welcomeText: {
         marginBottom: 20,
@@ -114,6 +114,14 @@ const styles = StyleSheet.create({
     },
     loadingContainer: {
         padding: 5, // Added padding around the ActivityIndicator
+    },
+    buttonContent: {
+        paddingVertical: 10, // Adjust the padding as needed
+        paddingHorizontal: 20,
+    },
+    errorText: {
+        color: 'red', // Color for the error message
+        marginBottom: 10,
     },
 });
 
