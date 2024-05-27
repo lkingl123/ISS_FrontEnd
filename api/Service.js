@@ -1,5 +1,3 @@
-//api/Service.js
-
 const initiateCall = async (data) => {
     // Check if all required fields are present in the data object
     if (!data.firstName || !data.lastName || !data.email || !data.phoneNumber) {
@@ -7,12 +5,17 @@ const initiateCall = async (data) => {
     }
 
     try {
-        const response = await fetch('http://demo8373478.mockable.io/initiate_call', {
+        const response = await fetch('https://dc3b-216-83-134-86.ngrok-free.app/initiate_call', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(data),
+            body: JSON.stringify({
+                firstName: data.firstName,
+                lastName: data.lastName,
+                phone: data.phoneNumber,
+                email: data.email
+            }),
         });
 
         if (!response.ok) {
