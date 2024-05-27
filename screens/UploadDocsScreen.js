@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, ScrollView, ActivityIndicator } from 'react-native';
 import * as DocumentPicker from 'expo-document-picker';
-import * as XLSX from 'xlsx';
+import ExcelJS from 'exceljs';
 import { Provider as PaperProvider, Button as PaperButton, Card as PaperCard, Snackbar as PaperSnackbar } from 'react-native-paper';
 import styles from '../styles';
 import { initiateCall } from '../api/Service'; // Import the initiateCall function
@@ -24,20 +24,30 @@ const UploadDocsScreen = () => {
             const fileUri = result.assets[0].uri;
             console.log('File URI:', fileUri);
 
-            const fileData = await fetch(fileUri);
-            const fileBlob = await fileData.blob();
+            const response = await fetch(fileUri);
+            const fileBlob = await response.blob();
             const reader = new FileReader();
 
-            reader.onload = (e) => {
-                const data = new Uint8Array(e.target.result);
-                console.log('FileReader data:', data);
+            reader.onload = async (e) => {
+                const arrayBuffer = e.target.result;
+                const workbook = new ExcelJS.Workbook();
+                await workbook.xlsx.load(arrayBuffer);
+                const worksheet = workbook.worksheets[0];
 
-                const workbook = XLSX.read(data, { type: 'array' });
-                const sheetName = workbook.SheetNames[0];
-                const sheet = workbook.Sheets[sheetName];
-                const jsonData = XLSX.utils.sheet_to_json(sheet);
+                const jsonData = [];
+                worksheet.eachRow({ includeEmpty: false }, (row, rowNumber) => {
+                    if (rowNumber > 1) { // Skip header row
+                        const rowValues = row.values;
+                        jsonData.push({
+                            first_name: rowValues[1],
+                            last_name: rowValues[2],
+                            email: rowValues[3],
+                            phone_number: rowValues[4]
+                        });
+                    }
+                });
+
                 console.log('Parsed JSON data:', jsonData);
-
                 setExcelData(jsonData);
                 setLoading(false);
                 setSnackbarVisible(true); // Show success message
