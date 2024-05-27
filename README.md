@@ -1,48 +1,57 @@
-# React Native App ISS_FrontEnd
 
-This is a simple React Native application that allows users to log in, make single or multiple calls, and log out.
+# ISS_FrontEnd
 
-## Prerequisites
+## Overview
+This application is a front-end interface for a call management system built with React Native and Expo. It integrates with a backend service to initiate calls and upload contact information from Excel files. Users can log in, view their profile, make single or multiple calls, and upload Excel documents to manage contacts.
 
-Before you begin, ensure you have the following installed:
-
-- Node.js
-- npm or yarn
-- React Native CLI
+## Features
+1. **User Authentication**: Log in and register functionalities.
+2. **Home Screen**: Allows users to toggle between single and multiple call modes, initiate calls, and navigate to the document upload screen.
+3. **Upload Documents**: Users can upload Excel files to view and manage contact data.
+4. **API Integration**: Connects to a backend service for initiating calls.
 
 ## Installation
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/yourusername/ISS_FrontEnd.git
+   cd ISS_FrontEnd
+   ```
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+3. Run the application:
+   ```bash
+   npx expo start
+   ```
 
-1. Clone the repository to your local machine:
+## Dependencies
+- React Native
+- Expo
+- react-native-paper
+- axios
+- dotenv
+- xlsx
 
-```bash
-git clone <repository-url>
+## File Structure
+- `App.js`: Main entry point of the application.
+- `screens/`: Contains all screen components (LoginScreen, RegisterScreen, HomeScreen, UploadDocsScreen).
+- `hooks/`: Custom hooks used in the application.
+- `api/Service.js`: Contains functions for making API calls.
+- `styles.js`: Styles used throughout the application.
+- `.env`: Environment variables for sensitive information (not included in the repository).
 
-Replace `<repository-url>` with the actual URL of your GitHub repository.
+## Usage
+1. **Login/Register**: Users can log in or register to access the app.
+2. **Home Screen**: View profile, initiate calls, and navigate to the document upload screen.
+3. **Upload Documents**: Upload Excel files to view and manage contact information.
 
-To run the app locally and also provide instructions for others, you can follow these steps:
-
-1. Clone the repository to your local machine.
-2. Navigate to the project directory in your terminal.
-3. Run `npm install` or `yarn install` to install dependencies.
-4. Run `npm start` or `yarn start` to start the Metro bundler.
-5. Follow the additional instructions provided in the README for running on iOS or Android simulators.
+## Environment Variables
+Create a `.env` file in the root directory with the following variables:
 ```
-## ISS FrontEnd Docker Setup
-
-This repository contains the Docker setup for the ISS FrontEnd project.
-
-## Building the Docker Image
-
-To build the Docker image, navigate to the root directory of this project in your terminal and run the following command:
-
-```bash
-docker build -t issfe .
+AIR_API_KEY=your_air_api_key
 ```
 
-## Running the Docker Container
+## Contributing
+Contributions are welcome! Please create a pull request or open an issue for any feature requests or bug reports.
 
-Once the image is built, you can run the Docker container using the following command:
-
-```bash
-docker run -it -p 8081:8081 issfe
-```
